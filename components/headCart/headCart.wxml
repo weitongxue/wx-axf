@@ -1,0 +1,4 @@
+<view class="headCart">
+    <view class="iocn"></view>
+    <view class="content">购物车</view>
+</view>

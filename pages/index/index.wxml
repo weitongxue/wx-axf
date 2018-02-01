@@ -1,0 +1,43 @@
+<view>
+    <myHead></myHead>
+    <view class="main">
+    <!-- 轮播图 -->
+        <view class="banner">
+            <swiper indicator-dots autoplay interval="3000" circular indicator-active-color="#ffd600">
+              <swiper-item wx:for="{{banner}}" wx:key="{{index}}">
+                  <image src="{{item.bannar_img}}"></image>
+              </swiper-item>
+            </swiper>
+        </view>
+        <!-- 商品展示 -->
+        <view class="commodity-wrap" wx:for="{{categories}}"  wx:key="{{item.id}}"  wx:if="{{index < 4}}">
+              <!-- 分类名称 -->
+              <view class="commodity-name">
+                <text class="name-text" style="color: {{item.color}}">{{item.name}}</text>
+                <text class="commodity-more">更多<text decode>&gt;</text></text>
+              </view>
+               <!-- 分类的图片 -->
+          <view  class="commodity-img">
+            <image src="{{item.img}}"></image>
+          </view>
+          <!-- 显示商品       -->
+         <view class="commodity"> 
+            <view class="commodity-li" wx:for="{{item.product}}" wx:for-item="itemName" wx:key="{{itemName.id}}" wx:if="{{index<3}}">
+              <view class="shop-img">
+                <image src="{{itemName.img}}"></image>
+              </view>
+              <text  class="shop-title">
+                <text>{{itemName.name}}</text>
+             </text>
+              <text class="shop-data">
+                <text class="shop-span1">
+                  <text>{{itemName.store_nums}}g</text>
+                  <text class="shop-p">￥{{itemName.price}}</text>
+                </text>
+                <text class="shop-span2">+</text>
+              </text>
+            </view>
+          </view>
+        </view>
+    </view>
+</view>

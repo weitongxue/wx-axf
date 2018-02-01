@@ -1,0 +1,12 @@
+<view class="cart">
+    <myHeadCart/>
+    <view  class="main">
+       <!-- 蒙版 -->
+        <view class="notic-wrap">
+          <view class="notic-img">
+          </view>
+          <text>亲，购物车空空的耶~</text>
+          <text>去逛逛</text>
+        </view>
+    </view>
+</view>

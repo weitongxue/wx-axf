@@ -1,0 +1,100 @@
+ .main{
+    font-size: 24rpx;
+  }
+  .banner{
+    width: 100%;
+  }
+swiper-item{
+  width: 100%;
+}
+ swiper-item> image{
+      width: 100%;
+      height: 100%;
+  }
+.commodity-wrap{
+width: 100%;
+background-color: white;
+ margin-bottom: 40rpx; 
+}
+.commodity-img{
+width: 95%;
+margin: 0 auto;
+}
+.commodity-img image{
+width: 100%;
+border-radius: 240rpx; 
+height: 144rpx;
+}
+.commodity-name{
+width: 100%;
+height: 96rpx;
+overflow: hidden;
+}
+.name-text{
+font-weight: 800;
+font-size:28rpx;
+margin: 28rpx 20rpx;
+float:left;
+border-left: 16rpx solid;
+padding-left: 20rpx;
+}
+.commodity-more{
+float:right;
+display: block;
+height: 100%;
+line-height: 96rpx;
+padding-right: 40rpx;
+}
+.commodity{
+width: 100%;
+ overflow: hidden; 
+}
+.commodity-li{
+width: 33.333%;
+padding:10rpx  10rpx;
+box-sizing: border-box;
+border-right: 1px solid #cccccc;
+float: left;
+}
+.commodity-li  .shop-img{
+  text-align: center;
+}
+.commodity-li  .shop-img > image{
+  width: 188rpx;
+  height:  188rpx;
+}
+.commodity-li  .shop-title{
+  margin:12rpx 0 0 25rpx;
+}
+.commodity-li  .shop-title>text{
+    margin-top: 20rpx;
+}
+  .commodity-li .shop-data{
+      margin-top: 40rpx;
+      line-height: 40rpx;
+      overflow: hidden;
+  }
+  .commodity-li .shop-data .shop-span1{
+    float: left;
+    margin-left: 15rpx;
+  }
+   .commodity-li .shop-data .shop-span1  .shop-p{
+      color: red; 
+      margin-left: 10rpx;
+   }
+ .commodity-li .shop-data .shop-span2{
+   text-align: center;
+    float: right;
+    display: block;
+    width: 40rpx;
+    height: 40rpx;
+    line-height: 35rpx;
+    border-radius: 50%;
+    border:1px solid #cccccc;
+    margin-right: 8rpx;
+    color:red;
+    font-size:40rpx;
+ }
+.wx-swiper-dots.wx-swiper-dots-horizontal{
+     margin-left: 300rpx;
+}

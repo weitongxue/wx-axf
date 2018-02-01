@@ -1,0 +1,50 @@
+<view class="market">
+  <myHead></myHead>
+  <view  class="main">
+     <!-- 分类列表 -->
+        <view class="category-list">
+            <view class="{{index == activeIndex ? 'category-li active' :'category-li'}}"  wx:for="{{categories}}" wx:key="{{index}}"  bindtap='changeActiveIndex' data-index ="{{index}}">{{item.name}}</view>
+        </view>
+        <!-- 商品详情 -->
+        <view class="product-details">
+            <!-- 综合排序 -->
+            <view class="product-sort">
+                <!-- 大分类 -->
+                <view class="sort-kinds">
+                    <text class="{{!activeBol ? 'product-sort-li1 active list' : 'product-sort-li1 list'}}" bindtap='changeHidden' >全部分类<text  class=" product-sort-span"></text></text>
+                    <text  class="{{!activeCol ? 'product-sort-li2 active list' : 'product-sort-li2 list'}}" bindtap='changeBlock'>综合排序<text class="product-sort-span"></text></text>
+                </view>
+                <!-- 小分类 -->
+                <view class="product-kids"  hidden="{{activeBol}}">
+                    <text class="{{activeCids =='全部分类'? 'active' : ''}}"  bindtap='changeCids'  data-name="全部分类" data-index ="all">全部分类</text>
+                    <text wx:for="{{categories[activeIndex].cids}}"  wx:for-item="cidName" wx:key="{{index}}" data-name ="{{cidName.name}}"
+                    data-index="{{index}}"  bindtap='changeCids'  class="{{activeCids == cidName.name ? 'active' : ''}}">{{cidName.name}}</text>
+                </view>
+                <view class="product-kids" hidden="{{activeCol}}">
+                     <text wx:for="{{arr}}" wx:key="{{index}}" bindtap='changeSort' data-index="{{index}}" class="{{activeSortIndex == index? 'active' : ''}}">{{item}}</text>
+                </view>
+            </view>
+            <!-- 对应商品 -->
+            <view class="details">
+                <view class="details-ul">
+                    <view class="details-li"  wx:for="{{activeProducts}}" wx:key="{{item.id}}" wx:for-item="itemName">
+                        <image src="{{itemName.img}}"></image>
+                        <view class="details-div">
+                            <text>{{itemName.name}}</text>
+                            <text>{{itemName.store_nums}}g</text>
+                            <text>￥{{itemName.price}}</text>
+                        </view>
+                        <view class="indicator">
+                            <view hidden="{{true}}">-</view>
+                            <view>0</view>
+                            <view>+</view>
+                        </view>
+                    </view>
+                </view> 
+            </view>
+            <!-- 蒙版 -->
+          <view class="masking" hidden="{{Bol}}">
+          </view>
+        </view>
+  </view>
+</view>
