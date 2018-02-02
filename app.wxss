@@ -5,3 +5,6 @@
     right: 0;
     background-color: #efefef;
   }
+  .text-hidden{
+    visibility: hidden;
+  }

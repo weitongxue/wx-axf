@@ -72,55 +72,44 @@ Page({
     })
     this.getActiveProduct()
   },
+  //综合排序
+  changeSort(event) {
+    let index = event.currentTarget.dataset.index
+    this.setData({
+      activeSortIndex: index,
+      Bol: true,
+      activeBol: true,
+      activeCol: true,
+    })
+    this.getActiveProduct()
+  },
+
   //拿到分类对应的商品
     getActiveProduct(){
       let activeIndex = this.data.activeIndex
       let activeCidIndex = this.data.activeCidIndex
-      if (activeCidIndex == 'all'){
-        let activeProducts = this.data.categories[activeIndex].product
-        this.setData({
-          activeProducts: activeProducts
-        })
-      }else{
-        let activeProducts = this.data.categories[activeIndex].product.filter(item => item.cidsId == activeCidIndex)
-        this.setData({
-          activeProducts: activeProducts
-        })
-      }
-      
-    },
-    //综合排序
-    changeSort(event){
-      let index  = event.currentTarget.dataset.index
-      this.setData({
-        activeSortIndex:index,
-        Bol:true,
-        activeBol: true,
-        activeCol: true,
-      })
-      this.getActiveSortProduct()
-    },
-    //综合排序对应的商品
-    getActiveSortProduct(){
       let activeSortIndex = this.data.activeSortIndex
-      if (activeSortIndex  == 1 ){
-        let activeProducts = this.data.activeProducts
-        var pro = activeProducts.slice(0).sort((a,b)=>{
+      let activeProducts = this.data.categories[activeIndex].product
+      if (activeCidIndex == 'all'){
+        activeProducts = activeProducts
+      }else{
+        activeProducts = activeProducts.filter(item => item.cidsId == activeCidIndex)
+      }
+      if (activeSortIndex == 1) {
+        activeProducts = activeProducts.slice(0).sort((a, b) => {
           return b.price - a.price
         })
-      }else if (activeSortIndex == 2){
-        let activeProducts = this.data.activeProducts
-        var pro = activeProducts.slice(0).sort((a, b) => {
+      } else if (activeSortIndex == 2) {
+        activeProducts = activeProducts.slice(0).sort((a, b) => {
           return a.price - b.price
         })
-      } else{
-        var pro = this.data.activeProducts
+      } else {
+        activeProducts = activeProducts
       }
+      
       this.setData({
-        activeProducts : pro
+        activeProducts: activeProducts
       })
-    }
-
-
-
+    },
+  
 })

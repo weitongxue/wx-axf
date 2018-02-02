@@ -1,10 +1,10 @@
 // components/headCart/headCart.js
 Component({
-  /**
-   * 组件的属性列表
-   */
   properties: {
-
+    headBol: {
+      type: Boolean,
+      value: 'true',
+    },
   },
 
   /**

@@ -1,66 +1,81 @@
-// pages/cart/cart.js
+//天数列表
+let dayList = ['今天', '明天', '后天']
+//时间数组
+let time = []
 Page({
-
-  /**
-   * 页面的初始数据
-   */
   data: {
-  
+    multiArray: [],
+    multiIndex: [0, 0],
+  },
+  onLoad(){
+      //获取当前的时间
+      let hour = new Date().getHours()
+      //用于判断时候可以选择30分钟内收货(默认为可以)
+      let hourBol = true
+      //判断当前时间时候是开业时间，最早为九点开始
+      if(hour < 9){
+        hour = 9
+      }else if(hour > 23){
+        //超过23点为明天早上九点送货
+        hour = 9
+        let hourBol = false
+        dayList= ['明天','后天']
+      }
+      //生成每天对应的时间表
+      for (let i = 0; i < dayList.length; i++) {
+          let start = 9   //开始时间
+          let timeList = []
+          if(i === 0){
+            //表示今天,时间应该从当前时间算
+            start = hour
+          }
+          if (i === 0 && dayList[i] === '今天' && hourBol) {
+            timeList.push('30分钟送达')
+          }
+          //需要生成多少段时间
+          let len = 24 - start
+          for(let j = 1 ; j < len ; j++){
+              let time = `${start+j}:00-${start+j+1}:00`
+              timeList.push(time)
+          }
+          time.push(timeList)
+      }
+      let multiArray = [dayList,time[0]]
+      this.setData({
+        multiArray: multiArray
+      })
   },
 
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad: function (options) {
-  
+  bindMultiPickerChange: function (e) {
+    console.log('picker发送选择改变，携带值为', e.detail.value)
+    this.setData({
+      multiIndex: e.detail.value
+    })
   },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-  
+  bindMultiPickerColumnChange: function (e) {
+    console.log('修改的列为', e.detail.column, '，值为', e.detail.value);
+    var data = {
+      multiArray: this.data.multiArray,
+      multiIndex: this.data.multiIndex
+    };
+    //根据选择修改pricke值
+    data.multiIndex[e.detail.column] = e.detail.value;
+    switch (e.detail.column) {
+      case 0:
+        switch (e.detail.value) {
+          case 0:
+            data.multiArray[1] = time[0];
+            break;
+          case 1:
+            data.multiArray[1] = time[1]
+            break;
+          case 2:
+            data.multiArray[1] = time[2]
+            break;
+        }
+        data.multiIndex[1] = 0;
+        break;
+    }
+    this.setData(data);
   },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-  
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-  
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-  
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-  
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-  
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-  
-  }
 })

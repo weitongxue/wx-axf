@@ -1,9 +1,10 @@
 {
   "pages":[
+    "pages/mine/mine",
     "pages/cart/cart",
     "pages/market/market",
     "pages/index/index",
-    "pages/mine/mine"
+    "pages/login/login"
   ],
   "window":{
     "backgroundTextStyle":"light",
