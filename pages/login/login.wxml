@@ -1,2 +1,12 @@
-<!--pages/login/login.wxml-->
-<text>pages/login/login.wxml</text>
+<view  class="longin">
+  <myHeadCart  headTitle="验证手机" headBol="{{false}}"/>
+  <view class="main">
+        <view class="pic-wrap" hidden="{{focusBol}}">
+            <view class="pic-word">为了方便您及时查询订单信息，鲜锋侠需要你的手机号作为查询账号</view>
+        </view> 
+        <view class="phone">
+            <input placeholder="手机号码"  bindfocus="focusInfo" bindblur="blurInfo" bindinput="changePhone"	  value="{{phoneInfo}}"/>
+        </view>
+        <view class="sub" bindtap='subInfo'>确定</view> 
+    </view>
+</view>

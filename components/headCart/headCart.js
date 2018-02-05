@@ -5,6 +5,10 @@ Component({
       type: Boolean,
       value: 'true',
     },
+    headTitle:{
+      type:String,
+      value:'购物车'
+    }
   },
 
   /**

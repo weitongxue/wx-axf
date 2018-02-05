@@ -21,9 +21,21 @@ Page({
     activeCidIndex : 'all'
   },
   onLoad: function () {
+    //拿到本地数据
+    var value = wx.getStorageSync('key')
+    let categories
+    let products
+    if (value.length > 0) {
+      //有数据就直接拿到
+      categories = appInstance.globalData.categories
+      products = appInstance.globalData.products
+    } else {
+      //没有数据就从数据库直接获取
+      appInstance.getCategoriesData()
+    }
     this.setData({
-      categories: appInstance.globalData.categories,
-      products: appInstance.globalData.products,
+      categories: categories,
+      products:products
     })
     this.getActiveProduct()
   },

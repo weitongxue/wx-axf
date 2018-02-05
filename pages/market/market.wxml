@@ -27,7 +27,8 @@
             <!-- 对应商品 -->
             <view class="details">
                 <view class="details-ul">
-                    <view class="details-li"  wx:for="{{activeProducts}}" wx:key="{{item.id}}" wx:for-item="itemName">
+                    <navigator  class="details-li"  wx:for="{{activeProducts}}" wx:key="{{item.id}}" wx:for-item="itemName" 
+url="../../packageA/pages/detail/detail?id={{itemName.id}}">
                         <image src="{{itemName.img}}"></image>
                         <view class="details-div">
                             <text>{{itemName.name}}</text>
@@ -39,7 +40,7 @@
                             <view>0</view>
                             <view>+</view>
                         </view>
-                    </view>
+                    </navigator>
                 </view> 
             </view>
             <!-- 蒙版 -->

@@ -1,0 +1,5 @@
+{
+  "usingComponents":{
+    "myHeadCart":"../../../components/headCart/headCart"
+  }
+}

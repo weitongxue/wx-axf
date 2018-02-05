@@ -1,4 +1,4 @@
 <view class="headCart">
     <view class="iocn" hidden='{{headBol}}'></view>
-    <view class="content">购物车</view>
+    <view class="content">{{headTitle}}</view>
 </view>

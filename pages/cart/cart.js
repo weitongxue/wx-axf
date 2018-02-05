@@ -1,11 +1,16 @@
 //天数列表
 let dayList = ['今天', '明天', '后天']
+let appInstance = getApp()
 //时间数组
 let time = []
 Page({
   data: {
     multiArray: [],
     multiIndex: [0, 0],
+    //控制蒙版的显示隐藏
+    Bol:true,
+    //该用户的购物车数据
+    cart:[]
   },
   onLoad(){
       //获取当前的时间
@@ -14,16 +19,16 @@ Page({
       let hourBol = true
       //判断当前时间时候是开业时间，最早为九点开始
       if(hour < 9){
-        hour = 9
+        hour = 8
       }else if(hour > 23){
         //超过23点为明天早上九点送货
-        hour = 9
+        hour = 8
         let hourBol = false
         dayList= ['明天','后天']
       }
       //生成每天对应的时间表
       for (let i = 0; i < dayList.length; i++) {
-          let start = 9   //开始时间
+          let start = 8   //开始时间
           let timeList = []
           if(i === 0){
             //表示今天,时间应该从当前时间算
@@ -33,7 +38,7 @@ Page({
             timeList.push('30分钟送达')
           }
           //需要生成多少段时间
-          let len = 24 - start
+          let len = 23 - start
           for(let j = 1 ; j < len ; j++){
               let time = `${start+j}:00-${start+j+1}:00`
               timeList.push(time)
@@ -45,15 +50,33 @@ Page({
         multiArray: multiArray
       })
   },
+  onShow (){
+    let userInfo = appInstance.globalData.userInfo
+    if (!userInfo.length> 0) {
+      wx.navigateTo({
+        url: '/pages/login/login'
+      })
+    } else {
+      let bol
+      let cart = appInstance.globalData.cartInfo
+      if (this.data.cart.length > 0) {
+           bol = false
+      }else{
+            bol  = true
+      }
+      this.setData({
+        cart : cart ,
+        Bol :bol
+      })
+    }
+  },
 
   bindMultiPickerChange: function (e) {
-    console.log('picker发送选择改变，携带值为', e.detail.value)
     this.setData({
       multiIndex: e.detail.value
     })
   },
   bindMultiPickerColumnChange: function (e) {
-    console.log('修改的列为', e.detail.column, '，值为', e.detail.value);
     var data = {
       multiArray: this.data.multiArray,
       multiIndex: this.data.multiIndex
@@ -78,4 +101,9 @@ Page({
     }
     this.setData(data);
   },
+  toHome(){
+    wx.switchTab({
+      url: '/pages/index/index'
+    })
+  }
 })
