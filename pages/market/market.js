@@ -18,24 +18,31 @@ Page({
     //综合排序激活的小分类
     activeSortIndex:0,
     //激活的小分类的下标
-    activeCidIndex : 'all'
+    activeCidIndex : 'all',
+    //该用户的购物车信息
+    cart:[]
   },
-  onLoad: function () {
+  onShow: function () {
     //拿到本地数据
     var value = wx.getStorageSync('key')
     let categories
     let products
+    let cart
     if (value.length > 0) {
       //有数据就直接拿到
+      cart = appInstance.globalData.cartInfo
       categories = appInstance.globalData.categories
       products = appInstance.globalData.products
     } else {
       //没有数据就从数据库直接获取
       appInstance.getCategoriesData()
     }
+    //同步购物车的数据（数量）
+    this.saveCartNum()
     this.setData({
       categories: categories,
-      products:products
+      products:products,
+      cart : cart
     })
     this.getActiveProduct()
   },
@@ -123,5 +130,44 @@ Page({
         activeProducts: activeProducts
       })
     },
-  
+    //与购物车的数据同步
+    saveCartNum(){
+      let cart = this.data.cart
+      let activeProducts = this.data.activeProducts
+      for (let i = 0; i < cart.length; i++) {
+        for (let j = 0; j < activeProducts.length; j++) {
+          if (cart[i].product_id == activeProducts[j].id) {
+            activeProducts[j].num = cart[i].num
+          }
+        }
+      }
+      this.setData({
+        activeProducts: activeProducts
+      })
+    },
+    //添加商品
+    addCart(event) {
+      //判断用户是否登录
+      let userInfo = appInstance.globalData.userInfo
+      if (!userInfo.length > 0) {
+        wx: wx.showToast({
+          title: '未登录，请先登录',
+          icon: 'none',
+          duration: 2500,
+          success:(res) => {
+            wx.navigateTo({
+              url: '/pages/login/login'
+            })
+          },
+        })
+      } else {
+        let product = event.currentTarget.dataset.product
+        appInstance.addProduct(product)
+          .then(() => {
+            //同步数据
+            this.saveCartNum()          
+            this.getActiveProduct()
+          })
+      }
+    }
 })

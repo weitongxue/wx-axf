@@ -1,5 +1,5 @@
 <view  class="longin">
-  <myHeadCart  headTitle="验证手机" headBol="{{false}}"/>
+  <myHeadCart  headTitle="验证手机" headBol="{{true}}"/>
   <view class="main">
         <view class="pic-wrap" hidden="{{focusBol}}">
             <view class="pic-word">为了方便您及时查询订单信息，鲜锋侠需要你的手机号作为查询账号</view>

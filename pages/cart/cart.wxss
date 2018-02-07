@@ -151,10 +151,10 @@
 .group-item-wrap{
   width:100%;
   background-color: #fff;
-  position: relative;
   overflow: hidden;
 }
 .group-item{
+    position: relative;
     width: 100%;
     overflow: hidden;
     border-top: 1px solid lightgray;

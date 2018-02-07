@@ -37,8 +37,8 @@ url="../../packageA/pages/detail/detail?id={{itemName.id}}">
                         </view>
                         <view class="indicator">
                             <view hidden="{{true}}">-</view>
-                            <view>0</view>
-                            <view>+</view>
+                            <view>{{itemName.num}}</view>
+                            <view catchtap="addCart" data-product ="{{itemName}}">+</view>
                         </view>
                     </navigator>
                 </view> 

@@ -75,14 +75,17 @@ float: left;
       margin-top: 40rpx;
       line-height: 40rpx;
       overflow: hidden;
+      display: block;
   }
   .commodity-li .shop-data .shop-span1{
     float: left;
+    display: block;
     margin-left: 15rpx;
+    overflow: hidden;
   }
    .commodity-li .shop-data .shop-span1  .shop-p{
       color: red; 
-      margin-left: 10rpx;
+       margin-left: 10rpx; 
    }
  .commodity-li .shop-data .shop-span2{
    text-align: center;

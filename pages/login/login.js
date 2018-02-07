@@ -60,11 +60,13 @@ Page({
                 //获取购物车信息
                   wx:wx.request({
                     url: api.host + '/carts?userId=' + id,
-                    success: function(res) {
+                    success: (res) =>{
                       //添加到全局变量中
                       appInstance.globalData.cartInfo = res.data
+                      //重置原始数据
+                      appInstance.saveProduct(res.data)
                     }
-                  })   
+                  }) 
               }else{
                 //注册
                 let userObj = {
@@ -85,12 +87,15 @@ Page({
                       icon: "success",
                       duration: 2000
                     })
+                    //添加到全局变量中
+                    appInstance.globalData.userInfo.push(res.data)
                   }
                 })
-                //同时保存到本地
-                wx.setStorageSync(
-                    "user",
-                     userObj
+                //保存到本地
+                wx.setStorage({
+                  key: "user",
+                  data:userObj
+                }
                 )
               }
           }

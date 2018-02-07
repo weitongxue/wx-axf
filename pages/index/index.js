@@ -21,7 +21,7 @@ Page({
     }
     this.setData({
       categories: categories,
-      products : products
+      products : products,
     })
     wx.request({
       url: api.host + '/banner',
@@ -36,4 +36,29 @@ Page({
      products: appInstance.globalData.products,
    })
   },
+  //添加商品
+  addCart(event){
+    //判断用户是否登录
+    let userInfo = appInstance.globalData.userInfo
+    if( !userInfo.length > 0){
+      wx.showToast({
+          title: '未登录，请先登录',
+          icon: 'none',
+          duration: 2500,
+          success: function(res) {
+            wx.navigateTo({
+              url: '/pages/login/login'
+            })
+          },
+        })
+    }else{
+      let product = event.currentTarget.dataset.product
+      appInstance.addProduct(product)
+      .then(()=>{
+        this.setData({
+          products: appInstance.globalData.products
+        })
+      })
+    }
+  }
 })

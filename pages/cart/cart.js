@@ -1,6 +1,7 @@
+var appInstance = getApp()
+let api = require('../../utils/api.js')
 //天数列表
 let dayList = ['今天', '明天', '后天']
-let appInstance = getApp()
 //时间数组
 let time = []
 Page({
@@ -50,23 +51,32 @@ Page({
         multiArray: multiArray
       })
   },
-  onShow (){
+  onShow(){
+    //判断是否登录
     let userInfo = appInstance.globalData.userInfo
-    if (!userInfo.length> 0) {
-      wx.navigateTo({
-        url: '/pages/login/login'
+    if (!userInfo.length > 0) {
+      wx.showToast({
+        title: '未登录，请登录',
+        icon: 'none',
+        duration: 2000,
+        mask: true,
+        success: function (res) {
+          wx.navigateTo({
+            url: '/pages/login/login'
+          })
+        },
       })
     } else {
       let bol
       let cart = appInstance.globalData.cartInfo
-      if (this.data.cart.length > 0) {
-           bol = false
-      }else{
-            bol  = true
+      if (cart.length > 0) {
+        bol = true
+      } else {
+        bol = false
       }
       this.setData({
-        cart : cart ,
-        Bol :bol
+        cart: cart,
+        Bol: bol
       })
     }
   },
@@ -105,5 +115,51 @@ Page({
     wx.switchTab({
       url: '/pages/index/index'
     })
+  },
+  //添加商品
+  addCart(event) {
+    //判断用户是否登录
+    let userInfo = appInstance.globalData.userInfo
+    if (!userInfo.length > 0) {
+      wx: wx.showToast({
+        title: '未登录，请先登录',
+        icon: 'none',
+        duration: 2500,
+        success:  (res) => {
+          wx.navigateTo({
+            url: '/pages/login/login'
+          })
+        },
+      })
+    } else {
+      let product = event.currentTarget.dataset.product
+      let cart = this.data.cart
+      for(let i = 0 ;  i < cart.length ; i++){
+        if(cart[i].product_id == product.product_id){
+           let id = cart[i].id
+            cart[i].num++
+            let num = cart[i].num
+            wx: wx.request({
+              url: api.host + "/carts/" + id,
+              data: {
+                num: num
+              },
+              method: "PATCH",
+              success:  (res) => {
+                wx.showToast({
+                  title: '更新数量成功',
+                  icon: 'success',
+                  duration: 2000
+                })
+              },
+            })
+            this.setData({
+              cart : cart
+            })
+            //重置数据
+            appInstance.saveProduct(cart)
+        }
+      }
+    }
   }
 })

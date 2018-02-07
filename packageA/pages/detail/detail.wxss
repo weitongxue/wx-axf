@@ -93,7 +93,7 @@
     display: inline-block;
     width: 50rpx;
     height: 50rpx;
-    line-height: 50rpx;
+    line-height: 43rpx;
     text-align: center;
     border: 1px solid #f40;
     color: #f40;

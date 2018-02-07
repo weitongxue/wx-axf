@@ -22,21 +22,21 @@
           </view>
           <!-- 显示商品       -->
          <view class="commodity"> 
-            <navigator   wx:for="{{item.product}}" wx:for-item="itemName"  url="../../packageA/pages/detail/detail?id={{itemName.id}}" class="commodity-li" wx:key="{{itemName.id}}" wx:if="{{index<3}}">
+            <view  wx:for="{{item.product}}" wx:for-item="itemName"  class="commodity-li" wx:key="{{itemName.id}}" wx:if="{{index<3}}">
               <view class="shop-img">
-                <image lazy-load="true"	 src="{{itemName.img}}"></image>
+                <image src="{{itemName.img}}"></image>
               </view>
-              <text  class="shop-title">
+              <view  class="shop-title">
                 <text>{{itemName.name}}</text>
-             </text>
-              <text class="shop-data">
-                <text class="shop-span1">
-                  <text>{{itemName.store_nums}}g</text>
+             </view>
+              <view class="shop-data">
+                <view class="shop-span1">
+                  <text class="shop_store">{{itemName.store_nums}}g</text>
                   <text class="shop-p">￥{{itemName.price}}</text>
-                </text>
-                <text class="shop-span2" bindtap='addProduct' data-product="{{itemName}}">+</text>
-              </text>
-            </navigator>
+                </view>
+                <view class="shop-span2" catchtap='addCart' data-product="{{itemName}}">+</view>
+              </view>
+            </view>
           </view>
         </view>
     </view>
