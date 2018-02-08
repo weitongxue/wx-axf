@@ -118,20 +118,6 @@ Page({
   },
   //添加商品
   addCart(event) {
-    //判断用户是否登录
-    let userInfo = appInstance.globalData.userInfo
-    if (!userInfo.length > 0) {
-      wx: wx.showToast({
-        title: '未登录，请先登录',
-        icon: 'none',
-        duration: 2500,
-        success:  (res) => {
-          wx.navigateTo({
-            url: '/pages/login/login'
-          })
-        },
-      })
-    } else {
       let product = event.currentTarget.dataset.product
       let cart = this.data.cart
       for(let i = 0 ;  i < cart.length ; i++){
@@ -147,7 +133,7 @@ Page({
               method: "PATCH",
               success:  (res) => {
                 wx.showToast({
-                  title: '更新数量成功',
+                  title: '添加数量成功',
                   icon: 'success',
                   duration: 2000
                 })
@@ -158,6 +144,66 @@ Page({
             })
             //重置数据
             appInstance.saveProduct(cart)
+        }
+      }
+  },
+  //减少商品
+  subCart(event){
+    let product = event.currentTarget.dataset.product
+    let cart = this.data.cart
+    let index
+    for (let i = 0; i < cart.length; i++) {
+      if (cart[i].product_id == product.product_id) {
+        let id = cart[i].id
+        index = i
+        if (cart[i].num > 1){
+          cart[i].num--
+          let num = cart[i].num
+          wx: wx.request({
+            url: api.host + "/carts/" + id,
+            data: {
+              num: num
+            },
+            method: "PATCH",
+            success: (res) => {
+              wx.showToast({
+                title: '减少数量成功',
+                icon: 'success',
+                duration: 2000
+              })
+            },
+          })
+          this.setData({
+            cart: cart
+          })
+          //重置数据
+          appInstance.saveProduct(cart)
+        }else{
+          //执行删除的操作
+          wx.request({
+            url: api.host + "/carts/" + id,
+            method: "DELETE",
+            success: (res) => {
+              wx.showToast({
+                title: '删除商品成功',
+                icon: "success",
+                duration: 2000
+              })
+              cart[i].num--
+              //重置数据
+              appInstance.saveProduct(cart)
+              //在用户列表中删除
+              cart.splice(index, 1)
+              let bol = this.data.Bol
+              if (!cart.length>0){
+               bol = false
+              }
+              this.setData({
+                cart: cart,
+                Bol:bol
+              }) 
+            }
+          })
         }
       }
     }

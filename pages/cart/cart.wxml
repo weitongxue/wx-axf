@@ -65,7 +65,7 @@
                       <text>￥{{item.product_price}}</text>
                     </view>
                     <view class="btn-wrap">
-                      <text>-</text>
+                      <text catchtap='subCart' data-product="{{item}}">-</text>
                       <text>{{item.num}}</text>
                       <text catchtap='addCart' data-product="{{item}}">+</text>
                     </view>

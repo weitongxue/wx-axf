@@ -48,6 +48,7 @@ Page({
           url: api.host + '/users?phone=' + phone,
           success: function (res) {
               //如果有，就是登录，没有就是注册
+
               if(res.data.length>0){
                 wx.showToast({
                   title: '登录成功',
@@ -55,10 +56,15 @@ Page({
                   duration: 2000
                 })
                 //拿到当前用户的信息并添加到全局变量（包括地址信息和购物车信息）
-                appInstance.globalData.userInfo = res.data
+                appInstance.globalData.userInfo =res.data
+                //保存到本地
+                wx.setStorage({
+                  key: "userInfo",
+                  data: res.data
+                })
                 let id = res.data[0].id
                 //获取购物车信息
-                  wx:wx.request({
+                  wx.request({
                     url: api.host + '/carts?userId=' + id,
                     success: (res) =>{
                       //添加到全局变量中
@@ -87,16 +93,15 @@ Page({
                       icon: "success",
                       duration: 2000
                     })
+                    //保存到本地
+                    wx.setStorage({
+                      key: "userInfo",
+                      data: res.data
+                    })
                     //添加到全局变量中
-                    appInstance.globalData.userInfo.push(res.data)
+                    appInstance.globalData.userInfo=res.data
                   }
                 })
-                //保存到本地
-                wx.setStorage({
-                  key: "user",
-                  data:userObj
-                }
-                )
               }
           }
         })

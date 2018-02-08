@@ -7,11 +7,10 @@ Page({
     products:[]
   },
   onLoad(){
-    //拿到本地储存的数据
-    var value = wx.getStorageSync('key')
-    let categories
-    let products
-    if(value.length>0){
+    //拿到全局变量的数据
+    let categories = appInstance.globalData.categories
+    let products = appInstance.globalData.products
+    if (categories.length>0){
       //有数据就直接拿到
       categories = appInstance.globalData.categories
       products = appInstance.globalData.products

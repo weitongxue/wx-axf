@@ -36,7 +36,7 @@ url="../../packageA/pages/detail/detail?id={{itemName.id}}">
                             <text>￥{{itemName.price}}</text>
                         </view>
                         <view class="indicator">
-                            <view hidden="{{true}}">-</view>
+                            <view hidden="{{true}}" catchtap='subCart' data-product ="{{itemName}}">-</view>
                             <view>{{itemName.num}}</view>
                             <view catchtap="addCart" data-product ="{{itemName}}">+</view>
                         </view>

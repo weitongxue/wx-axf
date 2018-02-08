@@ -23,12 +23,11 @@ Page({
     cart:[]
   },
   onShow: function () {
-    //拿到本地数据
-    var value = wx.getStorageSync('key')
-    let categories
-    let products
+    //拿到全局变量数据
+    let categories = appInstance.globalData.categories
+    let products = appInstance.globalData.products
     let cart
-    if (value.length > 0) {
+    if (categories.length > 0) {
       //有数据就直接拿到
       cart = appInstance.globalData.cartInfo
       categories = appInstance.globalData.categories
@@ -150,7 +149,7 @@ Page({
       //判断用户是否登录
       let userInfo = appInstance.globalData.userInfo
       if (!userInfo.length > 0) {
-        wx: wx.showToast({
+        wx.showToast({
           title: '未登录，请先登录',
           icon: 'none',
           duration: 2500,
@@ -166,6 +165,31 @@ Page({
           .then(() => {
             //同步数据
             this.saveCartNum()          
+            this.getActiveProduct()
+          })
+      }
+    },
+    //减少商品
+    subCart(event){
+      //判断用户是否登录
+      let userInfo = appInstance.globalData.userInfo
+      if (!userInfo.length > 0) {
+         wx.showToast({
+          title: '未登录，请先登录',
+          icon: 'none',
+          duration: 2500,
+          success: (res) => {
+            wx.navigateTo({
+              url: '/pages/login/login'
+            })
+          },
+        })
+      } else {
+        let product = event.currentTarget.dataset.product
+        appInstance.subProduct(product)
+          .then(() => {
+            //同步数据
+            this.saveCartNum()
             this.getActiveProduct()
           })
       }

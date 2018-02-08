@@ -2,6 +2,13 @@
 let api = require('/utils/api.js')
 App({
   onLaunch(){
+    let userInfo =wx.getStorageSync("userInfo")
+    console.log(userInfo)
+    let id = userInfo.id
+    console.log(id)
+    if (userInfo){
+      this.getCart(id)
+    }
       this.getCategoriesData()
   },
 
@@ -120,7 +127,7 @@ App({
           //商品规格
           product_store: product.store_nums
         }
-        cartInfo.push(productObj)
+        
         //同步添加到数据库
        wx.request({
           url: api.host + "/carts",
@@ -135,6 +142,7 @@ App({
               icon: 'success',
               duration: 2000,
             })
+           cartInfo.push(res.data)
             //重置数据
             this.saveProduct(res.data)
             resolve()
@@ -145,5 +153,85 @@ App({
       this.globalData.cartInfo = cartInfo
     })
   },
+  //减少商品
+  subProduct(product){
+    return new Promise ((resolve,reject)=>{
+      //拿到当前用户的购物车信息
+        let cart = this.globalData.cartInfo
+        //商品的数量
+        let num 
+        //该商品在购物车里的ID
+        let id 
+        //该商品在购物车里的下标
+        let index
+      //在购物车里找到当前要操作的商品
+      for(let i = 0 ; i < cart.length ; i++){
+        if(cart[i].product_id == product.id){
+          //找到了该商品，判断商品的num值
+          id = cart[i].id
+          index = i
+          if (cart[i].num> 1) {
+            //执行减少的操作
+            cart[i].num--
+            //更新购物车数据
+            wx.request({
+              url: api.host + "/carts/" + id,
+              data: {
+                num: cart[i].num
+              },
+              method: "PATCH",
+              success: (res) => {
+                wx.showToast({
+                  title: '减少商品成功',
+                  icon: 'success',
+                  duration: 2000
+                })
+                //重置数据
+                this.saveProduct(res)
+                resolve()
+              }
+            })
+          } else {
+            //执行删除的操作
+            wx.request({
+              url: api.host + "/carts/" + id,
+              method: "DELETE",
+              success: (res) => {
+                wx.showToast({
+                  title: '删除商品成功',
+                  icon: "success",
+                  duration: 2000
+                })
+                cart[i].num--
+                this.globalData.cartInfo = cart
+                //重置数据
+                this.saveProduct(this.globalData.cartInfo)
+                //在用户列表中删除
+                cart.splice(index, 1)
+                resolve()
+              }
+            })
+          }
+        }
+      }
+      //同步更新全局变量
+      this.globalData.cartInfo = cart
+    })
+  },
+
+  //获取用户的购物车数据
+  getCart(id){
+    //获取购物车信息
+    return new Promise((resolve, reject)=>{
+      wx.request({
+        url: api.host + '/carts?userId=' + id,
+        success: (res) => {
+          //添加到全局变量中
+          this.globalData.cartInfo = res.data
+          resolve(res.data)
+        }
+      }) 
+    })
+  }
   
 })
